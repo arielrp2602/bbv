@@ -4,10 +4,67 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Customer {
+  id            String   @id @default(cuid())
+  name          String
+  facebookAlias String?
+  phone1        String?
+  phone2        String?
+  notes         Note[]
+  createdAt     DateTime @default(now())
+}
+
+model Note {
+  id         String     @id @default(cuid())
+  items      NoteItem[]
+  payments   Payment[]
+  type       NoteType
+  dueDate    DateTime
+  createdAt  DateTime   @default(now())
+  subTotal   Decimal
+  total      Decimal
+  customerId String
+  customer   Customer   @relation(fields: [customerId], references: [id])
+}
+
+model NoteItem {
+  id          String   @id @default(cuid())
+  description String
+  qty         Int
+  unitPrice   Decimal
+  total       Decimal
+  createdAt   DateTime @default(now())
+
+  noteId String
+  note   Note   @relation(fields: [noteId], references: [id])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  amount        Decimal
+  clipReference String?
+  paymentMethod PaymentMethod
+  createdAt     DateTime      @default(now())
+
+  noteId String
+  note   Note   @relation(fields: [noteId], references: [id])
+}
+
+enum NoteType {
+  CONTADO
+  CREDITO
+}
+
+enum PaymentMethod {
+  EFECTIVO
+  TRANSFERENCIA
+  CLIP
 }
