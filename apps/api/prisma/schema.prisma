@@ -5,11 +5,35 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum NoteType {
+  CONTADO
+  CREDITO
+}
+
+enum PaymentMethod {
+  EFECTIVO
+  TRANSFERENCIA
+  CLIP
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(EMPLOYEE)
+  createdAt DateTime @default(now())
 }
 
 model Customer {
@@ -56,15 +80,4 @@ model Payment {
 
   noteId String
   note   Note   @relation(fields: [noteId], references: [id])
-}
-
-enum NoteType {
-  CONTADO
-  CREDITO
-}
-
-enum PaymentMethod {
-  EFECTIVO
-  TRANSFERENCIA
-  CLIP
 }
