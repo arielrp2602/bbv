@@ -23,7 +23,7 @@ export class CustomersController {
     return this.cs.create(dto);
   }
 
-  @Get('')
+  @Get()
   findAll() {
     return this.cs.findAll();
   }
@@ -31,6 +31,11 @@ export class CustomersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.cs.findOne(id);
+  }
+
+  @Get(':id/notes')
+  findNotesByCustomer(@Param('id') id: string) {
+    return this.cs.findNotesByCustomer(id);
   }
 
   @Patch(':id')

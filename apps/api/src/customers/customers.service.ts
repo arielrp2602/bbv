@@ -29,6 +29,16 @@ export class CustomersService {
     return customer;
   }
 
+  async findNotesByCustomer(customerId: string) {
+    return await this.ps.note.findMany({
+      where: { customerId },
+      include: {
+        items: true,
+        payments: true,
+      },
+    });
+  }
+
   async update(id: string, dto: UpdateCustomerDto) {
     await this.findOne(id);
 
