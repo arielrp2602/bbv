@@ -39,6 +39,7 @@ model User {
 model Customer {
   id            String   @id @default(cuid())
   name          String
+  address       String?
   facebookAlias String?
   phone1        String?
   phone2        String?
