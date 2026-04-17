@@ -6,6 +6,7 @@ import { CustomersModule } from './customers/customers.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { NotesModule } from './notes/notes.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { NotesModule } from './notes/notes.module';
     CustomersModule,
     PrismaModule,
     NotesModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

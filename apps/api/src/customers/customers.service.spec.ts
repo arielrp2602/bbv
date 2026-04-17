@@ -2,16 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CustomersService } from './customers.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
-
-const mockCustomer = {
-  id: 'customer-cuid',
-  address: 'customer-address',
-  facebookAlias: 'customer-fb-alias',
-  name: 'customer-name',
-  phone1: 'phone-1',
-  phone2: 'phone-2',
-  createdAt: new Date(),
-};
+import { mockCustomer } from '../test-mocks/customer';
 
 const mockPrismaService = {
   customer: {

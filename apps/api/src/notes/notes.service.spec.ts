@@ -4,43 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
 import { NoteType } from '@prisma/client';
 import { CustomersService } from '../customers/customers.service';
-
-const mockItem1 = {
-  id: 'note-item-1-cuid',
-  description: 'note-item-1-cuid',
-  qty: 5,
-  unitPrice: 15.5,
-  total: 77.5,
-  createdAt: Date.now(),
-  noteId: 'note-cuid',
-};
-
-const mockItem2 = {
-  id: 'note-item-2-cuid',
-  description: 'note-item-2-cuid',
-  qty: 6,
-  unitPrice: 10,
-  total: 60,
-  createdAt: Date.now(),
-  noteId: 'note-cuid',
-};
-
-const mockNoteItems = [mockItem1, mockItem2];
-
-const dueDate = new Date();
-dueDate.setDate(dueDate.getDate() + 45);
-
-const mockNote = {
-  id: 'note-cuid',
-  items: mockNoteItems,
-  payments: [],
-  type: 'CONTADO' as NoteType,
-  dueDate,
-  subTotal: (mockItem1.total + mockItem2.total) * 0.9,
-  total: mockItem1.total + mockItem2.total,
-  customerId: 'customer-cuid',
-  createdAt: new Date(),
-};
+import { mockNote } from '../test-mocks/notes';
 
 const mockPrismaService = {
   note: {
