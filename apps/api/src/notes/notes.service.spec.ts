@@ -68,10 +68,27 @@ describe('NotesService', () => {
     it('should return a list of notes', async () => {
       mockPrismaService.note.findMany.mockResolvedValue([mockNote]);
 
-      const notes = await service.findAll();
+      const notes = await service.findAll({
+        customerId: 'customer-cuid',
+        page: 1,
+        limit: 25,
+      });
 
       expect(notes).toHaveLength(1);
       expect(notes[0]).toEqual(mockNote);
+      expect(mockPrismaService.note.findMany).toHaveBeenCalledWith({
+        where: {
+          customerId: 'customer-cuid',
+        },
+        include: {
+          customer: true,
+          items: true,
+          payments: true,
+        },
+        skip: 0,
+        take: 25,
+        orderBy: { createdAt: 'desc' },
+      });
     });
   });
 

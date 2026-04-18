@@ -6,12 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { NotesService } from './notes.service';
+import { NoteType } from '@prisma/client';
 
 @UseGuards(JwtAuthGuard)
 @Controller('notes')
@@ -24,8 +26,18 @@ export class NotesController {
   }
 
   @Get()
-  findAll() {
-    return this.ns.findAll();
+  findAll(
+    @Query('type') type?: NoteType,
+    @Query('customerId') customerId?: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 25,
+  ) {
+    return this.ns.findAll({
+      type,
+      customerId,
+      page,
+      limit,
+    });
   }
 
   @Get(':id')

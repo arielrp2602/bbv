@@ -3,6 +3,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateNoteDto, CreateNoteItemDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { CustomersService } from '../customers/customers.service';
+import { NoteType } from '@prisma/client';
+
+interface Filters {
+  type?: NoteType;
+  customerId?: string;
+  page: number;
+  limit: number;
+}
 
 @Injectable()
 export class NotesService {
@@ -59,13 +67,22 @@ export class NotesService {
     });
   }
 
-  async findAll() {
+  async findAll({ type, customerId, page, limit }: Filters) {
+    const where = {
+      ...(type && { type }),
+      ...(customerId && { customerId }),
+    };
+
     return this.ps.note.findMany({
+      where,
       include: {
         customer: true,
         items: true,
         payments: true,
       },
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
     });
   }
 
