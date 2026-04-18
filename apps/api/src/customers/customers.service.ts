@@ -2,6 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { Prisma } from '@prisma/client';
+
+interface Filters {
+  name?: string;
+}
 
 @Injectable()
 export class CustomersService {
@@ -11,8 +16,18 @@ export class CustomersService {
     return await this.ps.customer.create({ data: dto });
   }
 
-  async findAll() {
+  async findAll({ name }: Filters) {
+    const where = {
+      ...(!!name && {
+        name: {
+          contains: name,
+          mode: Prisma.QueryMode.insensitive,
+        },
+      }),
+    };
+
     return await this.ps.customer.findMany({
+      where,
       include: {
         notes: true,
       },

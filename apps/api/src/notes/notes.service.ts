@@ -38,11 +38,7 @@ export class NotesService {
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + 45);
 
-    const customer = await this.cs.findOne(customerId);
-
-    if (!customer) {
-      throw new NotFoundException('Customer not found');
-    }
+    await this.cs.findOne(customerId);
 
     return await this.ps.note.create({
       data: {

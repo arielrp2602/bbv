@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -27,10 +29,10 @@ export class NotesController {
 
   @Get()
   findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(25), ParseIntPipe) limit: number,
     @Query('type') type?: NoteType,
     @Query('customerId') customerId?: string,
-    @Query('page') page = 1,
-    @Query('limit') limit = 25,
   ) {
     return this.ns.findAll({
       type,

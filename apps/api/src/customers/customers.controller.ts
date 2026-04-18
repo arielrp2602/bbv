@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -24,8 +25,8 @@ export class CustomersController {
   }
 
   @Get()
-  findAll() {
-    return this.cs.findAll();
+  findAll(@Query('name') name?: string) {
+    return this.cs.findAll({ name });
   }
 
   @Get(':id')

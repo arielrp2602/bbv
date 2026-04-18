@@ -5,6 +5,7 @@ import { NotFoundException } from '@nestjs/common';
 import { NoteType } from '@prisma/client';
 import { CustomersService } from '../customers/customers.service';
 import { mockNote } from '../test-mocks/notes';
+import { mockCustomer } from '../test-mocks/customer';
 
 const mockPrismaService = {
   note: {
@@ -14,16 +15,6 @@ const mockPrismaService = {
     update: jest.fn(),
     delete: jest.fn(),
   },
-};
-
-const mockCustomer = {
-  id: 'customer-cuid',
-  address: 'customer-address',
-  facebookAlias: 'customer-fb-alias',
-  name: 'customer-name',
-  phone1: 'phone-1',
-  phone2: 'phone-2',
-  createdAt: new Date(),
 };
 
 const mockCustomersService = {
@@ -76,6 +67,19 @@ describe('NotesService', () => {
 
       expect(notes).toHaveLength(1);
       expect(notes[0]).toEqual(mockNote);
+      expect(mockPrismaService.note.findMany).not.toHaveBeenCalledWith({
+        where: {
+          customerId: 'customer-cuid',
+        },
+        include: {
+          customer: true,
+          items: true,
+          payments: true,
+        },
+        skip: 2,
+        take: 25,
+        orderBy: { createdAt: 'desc' },
+      });
       expect(mockPrismaService.note.findMany).toHaveBeenCalledWith({
         where: {
           customerId: 'customer-cuid',

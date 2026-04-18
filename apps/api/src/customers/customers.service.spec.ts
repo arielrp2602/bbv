@@ -48,10 +48,23 @@ describe('CustomersService', () => {
     it('should return a list of customers', async () => {
       mockPrismaService.customer.findMany.mockResolvedValue([mockCustomer]);
 
-      const customers = await service.findAll();
+      const customers = await service.findAll({
+        name: 'customer-name',
+      });
 
       expect(customers).toHaveLength(1);
       expect(customers[0]).toEqual(mockCustomer);
+      expect(mockPrismaService.customer.findMany).toHaveBeenCalledWith({
+        where: {
+          name: {
+            contains: 'customer-name',
+            mode: 'insensitive',
+          },
+        },
+        include: {
+          notes: true,
+        },
+      });
     });
   });
 
