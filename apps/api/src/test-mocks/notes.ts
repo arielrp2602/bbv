@@ -5,8 +5,8 @@ export const mockItem1 = {
   id: 'note-item-1-cuid',
   description: 'note-item-1-cuid',
   qty: 5,
-  unitPrice: 15.5,
-  total: 77.5,
+  unitPrice: 15,
+  total: 75,
   createdAt: Date.now(),
   noteId: 'note-cuid',
 };
@@ -32,8 +32,8 @@ export const mockNote = {
   payments: [],
   type: 'CONTADO' as NoteType,
   dueDate,
-  subTotal: (mockItem1.total + mockItem2.total) * 0.9,
-  total: mockItem1.total + mockItem2.total,
+  total: (mockItem1.total + mockItem2.total) * 0.9,
+  subTotal: mockItem1.total + mockItem2.total,
   customerId: 'customer-cuid',
   createdAt: new Date(),
 };
@@ -41,11 +41,11 @@ export const mockNote = {
 export const mockNoteWithPayments = {
   id: 'note-cuid',
   items: mockNoteItems,
-  payments: [mockPayment],
+  payments: [mockPayment], // 121.5
   type: 'CONTADO' as NoteType,
   dueDate,
-  subTotal: (mockItem1.total + mockItem2.total) * 0.9,
-  total: mockItem1.total + mockItem2.total,
+  total: (mockItem1.total + mockItem2.total) * 0.9, // 121.5
+  subTotal: mockItem1.total + mockItem2.total, // 135
   customerId: 'customer-cuid',
   createdAt: new Date(),
 };

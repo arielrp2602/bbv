@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
 import { NoteType } from '@prisma/client';
 import { CustomersService } from '../customers/customers.service';
-import { mockNote } from '../test-mocks/notes';
+import { mockNote, mockNoteWithPayments } from '../test-mocks/notes';
 import { mockCustomer } from '../test-mocks/customer';
 
 const mockPrismaService = {
@@ -57,7 +57,7 @@ describe('NotesService', () => {
 
   describe('findAll', () => {
     it('should return a list of notes', async () => {
-      mockPrismaService.note.findMany.mockResolvedValue([mockNote]);
+      mockPrismaService.note.findMany.mockResolvedValue([mockNoteWithPayments]);
 
       const notes = await service.findAll({
         customerId: 'customer-cuid',
@@ -66,7 +66,12 @@ describe('NotesService', () => {
       });
 
       expect(notes).toHaveLength(1);
-      expect(notes[0]).toEqual(mockNote);
+      expect(notes[0]).toEqual({
+        ...mockNoteWithPayments,
+        balance: 0,
+        daysLeft: 45,
+        status: 'PAGADA',
+      });
       expect(mockPrismaService.note.findMany).not.toHaveBeenCalledWith({
         where: {
           customerId: 'customer-cuid',
@@ -98,11 +103,16 @@ describe('NotesService', () => {
 
   describe('findOne', () => {
     it('should return the note with the given ID', async () => {
-      mockPrismaService.note.findUnique.mockResolvedValue(mockNote);
+      mockPrismaService.note.findUnique.mockResolvedValue(mockNoteWithPayments);
 
       const note = await service.findOne('note-cuid');
 
-      expect(note).toEqual(mockNote);
+      expect(note).toEqual({
+        ...mockNoteWithPayments,
+        balance: 0,
+        daysLeft: 45,
+        status: 'PAGADA',
+      });
       expect(mockPrismaService.note.findUnique).toHaveBeenCalledWith(
         expect.objectContaining({
           where: {
@@ -131,9 +141,9 @@ describe('NotesService', () => {
       mockPrismaService.note.findUnique.mockResolvedValue(mockNote);
       mockPrismaService.note.update.mockResolvedValue(updatednote);
 
-      const newnote = await service.update('note-cuid', updatednote);
+      const newNote = await service.update('note-cuid', updatednote);
 
-      expect(newnote).toEqual(updatednote);
+      expect(newNote).toEqual(updatednote);
       expect(mockPrismaService.note.update).toHaveBeenCalledWith(
         expect.objectContaining({
           where: {
