@@ -48,16 +48,17 @@ model Customer {
 }
 
 model Note {
-  id         String     @id @default(cuid())
-  items      NoteItem[]
-  payments   Payment[]
-  type       NoteType
-  dueDate    DateTime
-  createdAt  DateTime   @default(now())
-  subTotal   Decimal
-  total      Decimal
-  customerId String
-  customer   Customer   @relation(fields: [customerId], references: [id])
+  id             String     @id @default(cuid())
+  items          NoteItem[]
+  payments       Payment[]
+  type           NoteType
+  dueDate        DateTime
+  createdAt      DateTime   @default(now())
+  subTotal       Decimal
+  total          Decimal
+  customerId     String
+  customer       Customer   @relation(fields: [customerId], references: [id])
+  trackingNumber String?
 }
 
 model NoteItem {
