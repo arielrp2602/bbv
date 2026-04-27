@@ -131,7 +131,7 @@ export class NotesService {
     });
 
     if (!note) {
-      throw new NotFoundException('Note not found');
+      throw new NotFoundException('Nota no encontrada');
     }
 
     return this.computeNote(note);

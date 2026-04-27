@@ -38,7 +38,7 @@ export class CustomersService {
     const customer = await this.ps.customer.findUnique({ where: { id } });
 
     if (!customer) {
-      throw new NotFoundException('Customer not found');
+      throw new NotFoundException('Cliente no encontrado');
     }
 
     return customer;

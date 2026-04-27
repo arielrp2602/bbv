@@ -39,7 +39,7 @@ export class AuthService {
       where: { email: data.email },
     });
 
-    if (exists) throw new ConflictException('Email already in use');
+    if (exists) throw new ConflictException('Este correo ya está en uso');
 
     const hashed = await bcrypt.hash(data.password, 10);
     const user = await this.ps.user.create({
@@ -57,11 +57,11 @@ export class AuthService {
       where: { email: data.email },
     });
 
-    if (!user) throw new UnauthorizedException('User not found');
+    if (!user) throw new UnauthorizedException('Usuario no encontrado');
 
     const valid = await bcrypt.compare(data.password, user.password);
 
-    if (!valid) throw new UnauthorizedException('Invalid credentials');
+    if (!valid) throw new UnauthorizedException('Credenciales incorrectas');
 
     return this.signToken(user.id, user.name, user.email, user.role);
   }

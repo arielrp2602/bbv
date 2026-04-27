@@ -25,7 +25,7 @@ export class PaymentsService {
 
     if (dto.amount > balance) {
       throw new BadRequestException(
-        'Paid amount is higher than current balance',
+        'La cantidad pagada es mayor al balance de la nota',
       );
     }
 
@@ -60,7 +60,7 @@ export class PaymentsService {
     const payment = await this.ps.payment.findUnique({ where: { id } });
 
     if (!payment) {
-      throw new NotFoundException('Payment not found');
+      throw new NotFoundException('Pago no encontrado');
     }
 
     return this.ps.payment.delete({ where: { id } });
