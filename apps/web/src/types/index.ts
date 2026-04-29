@@ -55,3 +55,10 @@ export interface Note {
   daysLeft: number;
   createdAt: string;
 }
+
+export interface NavigationLink {
+  description: string;
+  href: string;
+  icon: React.ReactNode;
+  title: string;
+}

@@ -11,6 +11,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@deemlol/next-icons": "^0.2.7",
     "@hookform/resolvers": "^5.2.2",
     "@sentry/nextjs": "^10.50.0",
     "axios": "^1.15.0",

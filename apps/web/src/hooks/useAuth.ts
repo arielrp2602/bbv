@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import axios from '../lib/axios';
 import { useRouter } from 'next/navigation';
 import { LoginDto } from '@/schemas/login.schema';
 import { RegisterDto } from '@/schemas/register.schema';
-import { useState } from 'react';
 import { getRequestErrorMessage } from '@/utils/';
 
 export function useAuth() {
