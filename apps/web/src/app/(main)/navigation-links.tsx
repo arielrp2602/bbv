@@ -1,5 +1,5 @@
 import { links } from '@/constants/navigation';
-import { SidebarLink } from './siderbar-link';
+import { SidebarLink } from './dashboard/siderbar-link';
 
 export const NavigationLinks = () => {
   return (
@@ -8,7 +8,7 @@ export const NavigationLinks = () => {
       <hr className="border-white mb-6" />
       <nav className="flex flex-col gap-1">
         {links.map(({ href, title }) => (
-          <SidebarLink key={title} href={href}>
+          <SidebarLink key={href} href={href}>
             {title}
           </SidebarLink>
         ))}

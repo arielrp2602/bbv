@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Menu } from '@deemlol/next-icons';
-import { NavigationLinks } from '@/components';
+import { NavigationLinks } from './navigation-links';
 
 export default function MainLayout({
   children,

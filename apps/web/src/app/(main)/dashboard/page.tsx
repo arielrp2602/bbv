@@ -1,4 +1,4 @@
-import { NavigationCard } from '@/components/navigation-card';
+import { NavigationCard } from '@/app/(main)/dashboard/navigation-card';
 import { links } from '@/constants/navigation';
 
 export default function DashboardPage() {

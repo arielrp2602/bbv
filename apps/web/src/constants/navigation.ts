@@ -17,6 +17,6 @@ export const links: NavigationLink[] = [
     icon: '💰',
     title: 'Pagos',
     description: 'Registra abonos y pagos',
-    href: '/notes',
+    href: '/payments',
   },
 ];

@@ -62,3 +62,17 @@ export interface NavigationLink {
   icon: React.ReactNode;
   title: string;
 }
+
+export interface Column<T> {
+  header: string;
+  key: keyof T;
+  shouldSkipRender?: boolean;
+  render?: (row: T) => React.ReactNode;
+}
+
+export interface SharedButtonProps {
+  label?: string;
+  size?: number;
+  title?: string;
+  onClick?: () => void;
+}
