@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { RemoveButton, Table } from '@/components/';
 import { TableActions } from '@/components/table/table-actions';
-import { FileText } from '@deemlol/next-icons';
+import { BookOpen } from '@deemlol/next-icons';
 import { Column, Customer } from '@/types';
 
 interface Props {
@@ -48,7 +48,7 @@ export function CustomersList({ customers, loading }: Props) {
               href={`/customers/${customer.id}`}
               className="text-blue-500 hover:underline text-sm"
             >
-              <FileText size={24} strokeWidth={3} color="#0000FF" />
+              <BookOpen size={24} strokeWidth={3} color="#0000FF" />
             </Link>
             <RemoveButton
               label="Eliminar cliente"

@@ -13,3 +13,4 @@ export { TableSkeleton } from './table/table-skeleton';
 
 // UX
 export { Error } from './ux/error';
+export { ViewToggle } from './ux/view-toggle';

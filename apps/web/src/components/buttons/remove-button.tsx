@@ -2,11 +2,29 @@
 
 import { SharedButtonProps } from '@/types';
 import { Trash } from '@deemlol/next-icons';
+import { IconButton } from '@/components';
 
-export function RemoveButton({ size = 24, title, onClick }: SharedButtonProps) {
+const color = '#fb2c36';
+
+export function RemoveButton({
+  label,
+  size = 24,
+  title,
+  onClick,
+}: SharedButtonProps) {
   return (
-    <button className="cursor-pointer" title={title} onClick={onClick}>
-      <Trash size={size} color="#fb2c36" strokeWidth={3} />
-    </button>
+    <IconButton title={title} onClick={onClick}>
+      <div
+        color={color}
+        className="flex justify-center  items-center gap-x-1 shadow-sm rounded-sm px-3 py-2"
+      >
+        <Trash size={size} color={color} strokeWidth={3} />
+        {!!label && (
+          <p color={color} className="text-lg">
+            {label}
+          </p>
+        )}
+      </div>
+    </IconButton>
   );
 }

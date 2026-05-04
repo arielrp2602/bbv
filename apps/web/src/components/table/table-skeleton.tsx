@@ -1,11 +1,13 @@
+import { Skeleton } from '../ui/skeleton';
+
 export function TableSkeleton({ rows = 5, cols = 5 }) {
   return (
     <div className="bg-white border border-gray-100 rounded-lg overflow-hidden">
       <div className="flex gap-4 px-6 py-3 bg-gray-50 border-b border-gray-100">
         {Array.from({ length: cols }).map((_, i) => (
-          <div
+          <Skeleton
             key={i}
-            className="h-3 bg-gray-200 rounded animate-pulse"
+            className="h-3 bg-gray-200 rounded"
             style={{ width: `${20}%` }}
           />
         ))}
@@ -16,9 +18,9 @@ export function TableSkeleton({ rows = 5, cols = 5 }) {
           className="flex gap-4 px-6 py-4 border-b border-gray-100 last:border-0"
         >
           {Array.from({ length: cols }).map((_, j) => (
-            <div
+            <Skeleton
               key={j}
-              className="h-3 bg-gray-100 rounded animate-pulse"
+              className="h-3 bg-gray-100 rounded"
               style={{ width: `${Math.random() * 15 + 12}%` }}
             />
           ))}

@@ -76,3 +76,5 @@ export interface SharedButtonProps {
   title?: string;
   onClick?: () => void;
 }
+
+export type View = 'table' | 'grid';

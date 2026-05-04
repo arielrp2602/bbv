@@ -5,10 +5,11 @@ import { Customer } from '@/types';
 import { useEffect, useState } from 'react';
 import { CustomersSearch } from './customers-search';
 import { CustomersList } from './customers-list';
-import { Pagination } from '@/components';
+import { Pagination, ViewToggle } from '@/components';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { PlusCircle } from '@deemlol/next-icons';
+import { useViewStore } from '@/store/view.store';
 
 interface Props {
   initialCustomers: Customer[];
@@ -19,6 +20,8 @@ const limit = 25;
 export function Customers({ initialCustomers }: Props) {
   const path = usePathname();
   const { loading, customers, error } = useCustomerStore();
+  const { view } = useViewStore();
+
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -27,6 +30,9 @@ export function Customers({ initialCustomers }: Props) {
 
   return (
     <div className="flex flex-col gap-3 md:gap-4">
+      <div className="flex flex-row-reverse">
+        <ViewToggle />
+      </div>
       <div className="flex gap-2.5">
         <CustomersSearch />
         <Link
@@ -37,7 +43,9 @@ export function Customers({ initialCustomers }: Props) {
           <PlusCircle size={24} color="#008000" strokeWidth={3} />
         </Link>
       </div>
-      <CustomersList customers={customers} loading={loading} />
+      {view === 'table' ? (
+        <CustomersList customers={customers} loading={loading} />
+      ) : null}
       <Pagination
         limit={limit}
         page={page}

@@ -1,13 +1,18 @@
 import { Column } from '@/types';
-import { RemoveButton, TableSkeleton } from '@/components';
-import Link from 'next/link';
-import { FileText } from '@deemlol/next-icons';
+import { TableSkeleton } from '@/components';
+import {
+  Table as TableUI,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../ui/table';
 
 interface Props<T> {
   columns: Column<T>[];
   data: T[];
   loading?: boolean;
-  path?: string;
   showDetailsLink?: boolean;
   onDelete?: (item: T) => void;
 }
@@ -16,7 +21,6 @@ export function Table<T>({
   columns,
   data,
   loading,
-  path,
   showDetailsLink,
   onDelete,
 }: Props<T>) {
@@ -28,43 +32,43 @@ export function Table<T>({
 
   return (
     <div className="rounded-lg overflow-hidden border border-gray-100 shadow-md">
-      <table className="w-full">
-        <thead className="bg-gray-50">
-          <tr>
+      <TableUI className="w-full">
+        <TableHeader className="bg-gray-50">
+          <TableRow>
             {columns.map((col) => {
               if (col.shouldSkipRender) return null;
 
               return (
-                <th
+                <TableHead
                   key={String(col.key)}
                   className="px-6 py-3 text-left text-sm text-gray-500"
                 >
                   {col.header}
-                </th>
+                </TableHead>
               );
             })}
             {!hasActions ? null : (
-              <th className="px-6 py-3 text-left text-sm text-gray-500">
+              <TableHead className="px-6 py-3 text-left text-sm text-gray-500">
                 Acciones
-              </th>
+              </TableHead>
             )}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data.map((row, i) => (
-            <tr
+            <TableRow
               key={i}
               className="border-b border-gray-100 even:bg-gray-100 odd:bg-white"
             >
               {columns.map((col) => (
-                <td key={String(col.key)} className="px-6 py-4">
+                <TableCell key={String(col.key)} className="px-6 py-4">
                   {col.render ? col.render(row) : String(row[col.key] ?? '-')}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </TableUI>
     </div>
   );
 }
