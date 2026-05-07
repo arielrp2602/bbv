@@ -5,19 +5,19 @@ import { getRequestErrorMessage } from '@/utils';
 
 interface State {
   customers: Customer[];
-  loading: boolean;
+  isLoading: boolean;
   error: string;
   fetchCustomers: (name?: string) => Promise<void>;
 }
 
 export const useCustomerStore = create<State>((set) => ({
   customers: [],
-  loading: false,
+  isLoading: false,
   error: '',
 
   fetchCustomers: async (name?: string) => {
     try {
-      set({ loading: true, error: '' });
+      set({ isLoading: true, error: '' });
 
       const res = await api.get('/customers', {
         params: { name },
@@ -29,7 +29,7 @@ export const useCustomerStore = create<State>((set) => ({
         error: getRequestErrorMessage(err),
       });
     } finally {
-      set({ loading: false });
+      set({ isLoading: false });
     }
   },
 }));

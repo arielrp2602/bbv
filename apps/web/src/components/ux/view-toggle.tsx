@@ -1,23 +1,28 @@
 import { useViewStore } from '@/store/view.store';
-import { View } from '@/types';
+import { List, LayoutGrid } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function ViewToggle() {
   const { view, setView } = useViewStore();
 
   return (
-    <div className="border border-gray-100 rounded-sm">
-      <button
-        className={`px-3 py-1.5 text-sm ${view === 'table' ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-500 hover:bg-gray-50'}`}
+    <div className="flex border rounded-lg overflow-hidden">
+      <Button
+        variant={view === 'table' ? 'default' : 'ghost'}
+        size="sm"
+        className="rounded-none"
         onClick={() => setView('table')}
       >
-        ☰ Tabla
-      </button>
-      <button
-        className={`px-3 py-1.5 text-sm ${view === 'grid' ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-500 hover:bg-gray-50'}`}
+        <List /> Tabla
+      </Button>
+      <Button
+        variant={view === 'grid' ? 'default' : 'ghost'}
+        size="sm"
+        className="rounded-none"
         onClick={() => setView('grid')}
       >
-        ⊞ Grid
-      </button>
+        <LayoutGrid /> Grid
+      </Button>
     </div>
   );
 }

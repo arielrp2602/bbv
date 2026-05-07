@@ -1,13 +1,13 @@
 'use client';
 
 import { SharedButtonProps } from '@/types';
-import { PlusCircle } from '@deemlol/next-icons';
-import { IconButton } from './icon-button';
+import { Plus } from 'lucide-react';
+import { Button } from '../ui/button';
 
-export function AddButton({ size = 24, title, onClick }: SharedButtonProps) {
+export function AddButton({ title, onClick }: SharedButtonProps) {
   return (
-    <IconButton title={title} onClick={onClick}>
-      <PlusCircle size={size} color="#008000" strokeWidth={3} />
-    </IconButton>
+    <Button variant="outline" size="icon" title={title} onClick={onClick}>
+      <Plus />
+    </Button>
   );
 }

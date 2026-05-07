@@ -1,16 +1,13 @@
 'use client';
 
 import { SharedButtonProps } from '@/types';
-import { FileText } from '@deemlol/next-icons';
+import { Eye } from 'lucide-react';
+import { Button } from '../ui/button';
 
-export function DetailsButton({
-  size = 24,
-  title,
-  onClick,
-}: SharedButtonProps) {
+export function DetailsButton({ title, onClick }: SharedButtonProps) {
   return (
-    <button className="cursor-pointer" title={title} onClick={onClick}>
-      <FileText size={size} color="#0000FF" strokeWidth={3} />
-    </button>
+    <Button variant="outline" size="icon" title={title} onClick={onClick}>
+      <Eye />
+    </Button>
   );
 }

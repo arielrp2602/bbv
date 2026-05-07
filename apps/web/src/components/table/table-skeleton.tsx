@@ -2,25 +2,21 @@ import { Skeleton } from '../ui/skeleton';
 
 export function TableSkeleton({ rows = 5, cols = 5 }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-lg overflow-hidden">
-      <div className="flex gap-4 px-6 py-3 bg-gray-50 border-b border-gray-100">
+    <div className="rounded-lg border shadow-md overflow-hidden">
+      <div className="flex items-center gap-4 px-2 h-10 bg-muted/50 border-b">
         {Array.from({ length: cols }).map((_, i) => (
-          <Skeleton
-            key={i}
-            className="h-3 bg-gray-200 rounded"
-            style={{ width: `${20}%` }}
-          />
+          <Skeleton key={i} className="h-3" style={{ width: '20%' }} />
         ))}
       </div>
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
-          className="flex gap-4 px-6 py-4 border-b border-gray-100 last:border-0"
+          className="flex items-center gap-4 px-2 py-2 border-b last:border-0 even:bg-muted/30"
         >
           {Array.from({ length: cols }).map((_, j) => (
             <Skeleton
               key={j}
-              className="h-3 bg-gray-100 rounded"
+              className="h-3"
               style={{ width: `${Math.random() * 15 + 12}%` }}
             />
           ))}

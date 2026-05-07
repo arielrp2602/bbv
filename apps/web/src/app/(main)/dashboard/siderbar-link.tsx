@@ -12,7 +12,7 @@ export function SidebarLink({ children, href }: Props) {
   return (
     <Link
       href={href}
-      className={`py-2 px-3 text-white rounded-sm transition-colors ${isActive ? 'bg-blue-700' : 'hover:bg-blue-800'}`}
+      className={`py-2 px-3 text-white rounded-sm ${isActive ? 'font-bold underline' : 'hover:font-bold'}`}
     >
       {children}
     </Link>

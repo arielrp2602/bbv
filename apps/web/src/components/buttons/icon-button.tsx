@@ -1,6 +1,7 @@
 'use client';
 
 import { SharedButtonProps } from '@/types';
+import { Button } from '../ui/button';
 
 interface Props extends Omit<SharedButtonProps, 'size' | 'label'> {
   children: React.ReactNode;
@@ -8,8 +9,8 @@ interface Props extends Omit<SharedButtonProps, 'size' | 'label'> {
 
 export function IconButton({ children, title, onClick }: Props) {
   return (
-    <button className="cursor-pointer" title={title} onClick={onClick}>
+    <Button className="cursor-pointer" title={title} onClick={onClick}>
       {children}
-    </button>
+    </Button>
   );
 }

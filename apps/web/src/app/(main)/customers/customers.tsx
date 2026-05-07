@@ -8,8 +8,11 @@ import { CustomersList } from './customers-list';
 import { Pagination, ViewToggle } from '@/components';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { PlusCircle } from '@deemlol/next-icons';
+import { Plus } from 'lucide-react';
 import { useViewStore } from '@/store/view.store';
+import CustomersGrid from './customers-grid';
+import { ConditionalRender } from '@/components/conditional-render';
+import { GridSkeleton } from '@/components/grid/grid-skeleton';
 
 interface Props {
   initialCustomers: Customer[];
@@ -19,7 +22,7 @@ const limit = 25;
 
 export function Customers({ initialCustomers }: Props) {
   const path = usePathname();
-  const { loading, customers, error } = useCustomerStore();
+  const { isLoading, customers, error } = useCustomerStore();
   const { view } = useViewStore();
 
   const [page, setPage] = useState(1);
@@ -33,19 +36,29 @@ export function Customers({ initialCustomers }: Props) {
       <div className="flex flex-row-reverse">
         <ViewToggle />
       </div>
-      <div className="flex gap-2.5">
+      <div className="flex gap-2.5 items-center">
         <CustomersSearch />
         <Link
-          className="flex justify-center items-center"
+          className="bg-transparent border-4 border-[#008000] rounded-4xl"
           href={`${path}/create`}
           title="Agregar un nuevo cliente"
         >
-          <PlusCircle size={24} color="#008000" strokeWidth={3} />
+          <Plus color="#008000" />
         </Link>
       </div>
       {view === 'table' ? (
-        <CustomersList customers={customers} loading={loading} />
-      ) : null}
+        <ConditionalRender
+          flag={isLoading}
+          whenTrue={<GridSkeleton />}
+          whenFalse={<CustomersList customers={customers} />}
+        />
+      ) : (
+        <ConditionalRender
+          flag={isLoading}
+          whenTrue={<GridSkeleton />}
+          whenFalse={<CustomersGrid customers={customers} />}
+        />
+      )}
       <Pagination
         limit={limit}
         page={page}

@@ -9,7 +9,7 @@ export function NavigationCard({
 }: NavigationLink) {
   return (
     <Link href={href}>
-      <div className="flex items-center bg-white shadow-sm rounded-md p-6 hover:-translate-y-1 transition-transform gap-2">
+      <div className="flex items-center bg-white shadow-sm rounded-md p-6 hover:-translate-y-1 transition-transform gap-3">
         <div className="text-3xl">{icon}</div>
         <div>
           <p className="font-bold">{title}</p>

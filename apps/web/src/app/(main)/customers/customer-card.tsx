@@ -1,6 +1,6 @@
 'use client';
 
-import { Card } from '@/components/card/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Customer } from '@/types';
 import { useMemo } from 'react';
 
@@ -9,42 +9,47 @@ interface Props {
 }
 
 function Avatar({ initials }: { initials: string }) {
+  console.log({ initials });
   return (
-    <div className="p-3 rounded-4xl bg-black text-white uppercase">
+    <div className="py-1.5 px-2 rounded-4xl bg-primary text-primary-foreground uppercase">
       {initials}
     </div>
   );
 }
 
 export function CustomerCard({ customer }: Props) {
+  console.log({ customer });
   const initials = useMemo(
     () =>
       customer.name
-        .split('')
-        .map((n) => n[0])
+        .split(' ')
+        .slice(0, 2)
+        .map((n) => n[0] ?? '')
         .join(''),
     [customer],
   );
   return (
-    <Card>
-      <Card.Header className="flex gap-2">
+    <Card className="hover:-translate-y-1 transition-transform cursor-pointer">
+      <CardHeader className="flex items-center gap-2">
         <Avatar initials={initials} />
         <div className="flex flex-col gap-1">
           <div className="font-bold">{customer.name}</div>
           {!!customer.facebookAlias && (
-            <div className="text-sm text-gray-100">
+            <div className="text-sm text-muted-foreground">
               {customer.facebookAlias}
             </div>
           )}
         </div>
-      </Card.Header>
-      <Card.Body className="flex flex-col gap-2">
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2">
         {!customer.phone1 && !customer.phone2 ? (
-          <div className="text-md text-gray-100">
+          <div className="text-sm text-muted-foreground">
             No hay teléfonos registrados
           </div>
-        ) : null}
-      </Card.Body>
+        ) : (
+          <p>hola</p>
+        )}
+      </CardContent>
     </Card>
   );
 }

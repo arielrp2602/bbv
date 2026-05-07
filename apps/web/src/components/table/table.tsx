@@ -1,5 +1,5 @@
-import { Column } from '@/types';
-import { TableSkeleton } from '@/components';
+import Link from 'next/link';
+import { Eye } from 'lucide-react';
 import {
   Table as TableUI,
   TableBody,
@@ -7,64 +7,50 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '@/components/ui/table';
+import { Column } from '@/types';
 
 interface Props<T> {
   columns: Column<T>[];
   data: T[];
-  loading?: boolean;
-  showDetailsLink?: boolean;
-  onDelete?: (item: T) => void;
+  getRowHref?: (row: T) => string;
 }
 
-export function Table<T>({
-  columns,
-  data,
-  loading,
-  showDetailsLink,
-  onDelete,
-}: Props<T>) {
-  if (loading !== undefined && loading) {
-    return <TableSkeleton />;
-  }
-
-  const hasActions = !!onDelete || !!showDetailsLink;
-
+export function Table<T>({ columns, data, getRowHref }: Props<T>) {
   return (
-    <div className="rounded-lg overflow-hidden border border-gray-100 shadow-md">
-      <TableUI className="w-full">
-        <TableHeader className="bg-gray-50">
+    <div className="rounded-lg border shadow-md overflow-hidden">
+      <TableUI>
+        <TableHeader className="bg-muted/50">
           <TableRow>
-            {columns.map((col) => {
-              if (col.shouldSkipRender) return null;
-
-              return (
-                <TableHead
-                  key={String(col.key)}
-                  className="px-6 py-3 text-left text-sm text-gray-500"
-                >
-                  {col.header}
-                </TableHead>
-              );
-            })}
-            {!hasActions ? null : (
-              <TableHead className="px-6 py-3 text-left text-sm text-gray-500">
-                Acciones
+            {columns.map((col) => (
+              <TableHead
+                key={String(col.key)}
+                className="text-muted-foreground"
+              >
+                {col.header}
               </TableHead>
-            )}
+            ))}
+            {getRowHref && <TableHead />}
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((row, i) => (
-            <TableRow
-              key={i}
-              className="border-b border-gray-100 even:bg-gray-100 odd:bg-white"
-            >
+            <TableRow key={i} className="even:bg-muted/30 group">
               {columns.map((col) => (
-                <TableCell key={String(col.key)} className="px-6 py-4">
+                <TableCell key={String(col.key)}>
                   {col.render ? col.render(row) : String(row[col.key] ?? '-')}
                 </TableCell>
               ))}
+              {getRowHref && (
+                <TableCell className="text-right">
+                  <Link
+                    href={getRowHref(row)}
+                    className="invisible group-hover:visible text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Ver detalle →
+                  </Link>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

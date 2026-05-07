@@ -11,23 +11,25 @@ interface Props {
 
 export function Pagination({ limit, page, total, setPage }: Props) {
   return (
-    <div className="flex justify-end gap-2 mt-4">
+    <div className="flex items-center justify-end gap-2 mt-4">
       <Button
-        className="px-3 py-1 border rounded-sm disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+        variant="outline"
+        size="icon"
         disabled={page === 1}
         title="Página anterior"
         onClick={() => setPage(page - 1)}
       >
-        <ChevronLeft size={24} color="#000" strokeWidth={3} />
+        <ChevronLeft size={16} strokeWidth={2} />
       </Button>
-      <span className="px-3 py-1">Página {page}</span>
+      <span className="text-sm text-muted-foreground px-1">Página {page}</span>
       <Button
-        className="px-3 py-1 border rounded-sm disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+        variant="outline"
+        size="icon"
         disabled={total < limit}
         title="Siguiente página"
         onClick={() => setPage(page + 1)}
       >
-        <ChevronRight size={24} color="#000" strokeWidth={3} />
+        <ChevronRight size={16} strokeWidth={2} />
       </Button>
     </div>
   );

@@ -71,7 +71,6 @@ export interface Column<T> {
 }
 
 export interface SharedButtonProps {
-  label?: string;
   size?: number;
   title?: string;
   onClick?: () => void;
