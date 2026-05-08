@@ -5,7 +5,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { Prisma } from '@prisma/client';
 
 interface Filters {
-  name?: string;
+  search?: string;
 }
 
 @Injectable()
@@ -16,15 +16,26 @@ export class CustomersService {
     return await this.ps.customer.create({ data: dto });
   }
 
-  async findAll({ name }: Filters) {
-    const where = {
-      ...(!!name && {
-        name: {
-          contains: name,
-          mode: Prisma.QueryMode.insensitive,
-        },
-      }),
-    };
+  async findAll({ search }: Filters) {
+    const where = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
+            {
+              facebookAlias: {
+                contains: search,
+                mode: Prisma.QueryMode.insensitive,
+              },
+            },
+            {
+              phone1: { contains: search, mode: Prisma.QueryMode.insensitive },
+            },
+            {
+              phone2: { contains: search, mode: Prisma.QueryMode.insensitive },
+            },
+          ],
+        }
+      : {};
 
     return await this.ps.customer.findMany({
       where,

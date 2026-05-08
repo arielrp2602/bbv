@@ -43,12 +43,12 @@ export const useCustomerStore = create<State>((set) => ({
       set({ isLoading: false });
     }
   },
-  fetchCustomers: async (name?: string) => {
+  fetchCustomers: async (search?: string) => {
     try {
       set({ isLoading: true, error: '' });
 
       const res = await api.get('/customers', {
-        params: { name },
+        params: { search },
       });
 
       set({ customers: res.data });

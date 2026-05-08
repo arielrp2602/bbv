@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export function CustomersSearch() {
   const fetchCustomers = useCustomerStore((state) => state.fetchCustomers);
-  const [name, setName] = useState('');
+  const [search, setSearch] = useState('');
   const ref = useRef<HTMLInputElement>(null);
 
   const searchCustomers = (name: string) => {
@@ -18,17 +18,17 @@ export function CustomersSearch() {
   ) => {
     if (!event.target.value.trim()) fetchCustomers();
 
-    setName(event.target.value);
+    setSearch(event.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      searchCustomers(name);
+      searchCustomers(search);
     }
   };
 
   const handleClearClick = () => {
-    setName('');
+    setSearch('');
     fetchCustomers();
     ref?.current?.focus();
   };
@@ -40,15 +40,15 @@ export function CustomersSearch() {
         type="text"
         onChange={handleOnChange}
         onKeyDown={handleKeyDown}
-        value={name}
-        placeholder="Busca por nombre o por su alias en Facebook"
+        value={search}
+        placeholder="Busca por nombre, nombre en Facebook o teléfono"
         ref={ref}
       />
       <Button
         className="absolute right-1 inset-y-0 my-auto h-fit"
         variant="ghost"
         size="icon-sm"
-        disabled={!name.trim().length}
+        disabled={!search.trim().length}
         title="Limpiar el campo de texto"
         onClick={handleClearClick}
       >

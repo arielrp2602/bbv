@@ -25,8 +25,8 @@ export class CustomersController {
   }
 
   @Get()
-  findAll(@Query('name') name?: string) {
-    return this.cs.findAll({ name });
+  findAll(@Query('search') search?: string) {
+    return this.cs.findAll({ search });
   }
 
   @Get(':id')
