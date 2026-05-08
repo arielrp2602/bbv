@@ -4,6 +4,9 @@ export { IconButton } from './buttons/icon-button';
 export { DetailsButton } from './buttons/details-button';
 export { RemoveButton } from './buttons/remove-button';
 
+// Grid
+export { Grid } from './grid/grid';
+export { GridSkeleton } from './grid/grid-skeleton';
 // Sheet
 export { Sheet } from './sheet/sheet';
 

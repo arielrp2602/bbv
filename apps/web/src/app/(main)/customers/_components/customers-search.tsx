@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 export function CustomersSearch() {
-  const { fetchCustomers } = useCustomerStore();
+  const fetchCustomers = useCustomerStore((state) => state.fetchCustomers);
   const [name, setName] = useState('');
   const ref = useRef<HTMLInputElement>(null);
 
@@ -27,7 +27,7 @@ export function CustomersSearch() {
     }
   };
 
-  const handleClearClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClearClick = () => {
     setName('');
     fetchCustomers();
     ref?.current?.focus();

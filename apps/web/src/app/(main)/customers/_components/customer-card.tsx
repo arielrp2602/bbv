@@ -1,11 +1,13 @@
 'use client';
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Customer } from '@/types';
 import { useMemo } from 'react';
 
 interface Props {
   customer: Customer;
+  onClick?: () => void;
+  tabIndex?: number;
 }
 
 function Avatar({ initials }: { initials: string }) {
@@ -16,7 +18,7 @@ function Avatar({ initials }: { initials: string }) {
   );
 }
 
-export function CustomerCard({ customer }: Props) {
+export function CustomerCard({ customer, onClick, tabIndex }: Props) {
   const initials = useMemo(
     () =>
       customer.name
@@ -27,26 +29,42 @@ export function CustomerCard({ customer }: Props) {
     [customer],
   );
   return (
-    <Card className="hover:-translate-y-1 transition-transform cursor-pointer">
-      <CardHeader className="flex items-center gap-2">
+    <Card
+      className="h-full cursor-pointer hover:-translate-y-1 transition-transform"
+      role={onClick ? 'button' : undefined}
+      tabIndex={tabIndex}
+      onClick={onClick}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.()}
+    >
+      <CardContent className="flex items-center h-full gap-2.5">
         <Avatar initials={initials} />
-        <div className="flex flex-col gap-1">
-          <div className="font-bold">{customer.name}</div>
+        <div className="flex flex-col items-start gap-1">
+          <div data-testid="customer-name" className="font-bold">
+            {customer.name}
+          </div>
           {!!customer.facebookAlias && (
-            <div className="text-sm text-muted-foreground">
+            <div
+              data-testid="facebook-alias"
+              className="text-sm text-muted-foreground"
+            >
               {customer.facebookAlias}
             </div>
           )}
+          {!customer.phone1 && !customer.phone2 ? (
+            <div className="text-sm text-muted-foreground">
+              No hay teléfonos registrados
+            </div>
+          ) : (
+            <>
+              {!!customer.phone1 && (
+                <div data-testid="phone1">{customer.phone1}</div>
+              )}
+              {!!customer.phone2 && (
+                <div data-testid="phone2">{customer.phone2}</div>
+              )}
+            </>
+          )}
         </div>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-2">
-        {!customer.phone1 && !customer.phone2 ? (
-          <div className="text-sm text-muted-foreground">
-            No hay teléfonos registrados
-          </div>
-        ) : (
-          <p>hola</p>
-        )}
       </CardContent>
     </Card>
   );

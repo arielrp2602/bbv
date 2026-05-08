@@ -1,20 +1,27 @@
-import { links } from '@/constants/navigation';
 import { Customer } from '@/types';
 import { CustomerCard } from './customer-card';
-import Link from 'next/link';
+import { useCustomerStore } from '@/store/customers.store';
+import { Grid } from '@/components';
 
 interface Props {
   customers: Customer[];
 }
 
-export default function CustomersGrid({ customers }: Props) {
+export function CustomersGrid({ customers }: Props) {
+  const setSelectedCustomer = useCustomerStore(
+    (state) => state.setSelectedCustomer,
+  );
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-      {customers.map((customer) => (
-        <Link key={customer.id} href={`/customers/${customer.id}`}>
-          <CustomerCard key={customer.id} customer={customer} />
-        </Link>
+    <Grid>
+      {customers.map((customer, index) => (
+        <CustomerCard
+          key={customer.id}
+          customer={customer}
+          onClick={() => setSelectedCustomer(customer)}
+          tabIndex={index}
+        />
       ))}
-    </div>
+    </Grid>
   );
 }

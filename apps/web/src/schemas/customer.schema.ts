@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const updateCustomerSchema = z.object({
+export const customerSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido'),
   address: z.string().optional(),
   facebookAlias: z.string().optional(),
@@ -8,4 +8,4 @@ export const updateCustomerSchema = z.object({
   phone2: z.string().optional(),
 });
 
-export type UpdateCustomerDto = z.infer<typeof updateCustomerSchema>;
+export type CustomerDto = z.infer<typeof customerSchema>;

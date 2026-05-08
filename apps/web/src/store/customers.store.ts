@@ -2,14 +2,18 @@ import api from '@/lib/axios';
 import { create } from 'zustand';
 import { Customer } from '@/types';
 import { getRequestErrorMessage } from '@/utils';
+import { CustomerDto } from '@/schemas/customer.schema';
 
 interface State {
   customers: Customer[];
   isLoading: boolean;
   error: string;
   selectedCustomer: Customer | null;
+  showCreateSheet: boolean;
   setSelectedCustomer: (c: Customer | null) => void;
-  updateCustomer: (id: string, data: Partial<Customer>) => Promise<void>;
+  setShowCreateSheet: (showCreateSheet: boolean) => void;
+  createCustomer: (data: CustomerDto) => Promise<void>;
+  updateCustomer: (id: string, data: CustomerDto) => Promise<void>;
   fetchCustomers: (name?: string) => Promise<void>;
 }
 
@@ -18,7 +22,27 @@ export const useCustomerStore = create<State>((set) => ({
   isLoading: false,
   error: '',
   selectedCustomer: null,
+  showCreateSheet: false,
+  setShowCreateSheet: (showCreateSheet) => {
+    set({ showCreateSheet });
+  },
+  createCustomer: async (data) => {
+    try {
+      set({ isLoading: true, error: '' });
 
+      const res = await api.post('/customers', data);
+
+      set((state) => ({
+        customers: [...state.customers, res.data],
+      }));
+    } catch (err: unknown) {
+      set({
+        error: getRequestErrorMessage(err),
+      });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
   fetchCustomers: async (name?: string) => {
     try {
       set({ isLoading: true, error: '' });
@@ -28,7 +52,7 @@ export const useCustomerStore = create<State>((set) => ({
       });
 
       set({ customers: res.data });
-    } catch (err: any) {
+    } catch (err: unknown) {
       set({
         error: getRequestErrorMessage(err),
       });
@@ -37,6 +61,7 @@ export const useCustomerStore = create<State>((set) => ({
     }
   },
   setSelectedCustomer: (selectedCustomer) => {
+    console.log('hi', { selectedCustomer });
     set({ selectedCustomer });
   },
   updateCustomer: async (id, data) => {
@@ -51,7 +76,7 @@ export const useCustomerStore = create<State>((set) => ({
           c.id !== id ? c : { ...c, ...data },
         ),
       }));
-    } catch (err: any) {
+    } catch (err: unknown) {
       set({
         error: getRequestErrorMessage(err),
       });

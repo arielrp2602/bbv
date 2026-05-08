@@ -10,7 +10,9 @@ interface Props {
 }
 
 export function CustomersList({ customers }: Props) {
-  const { setSelectedCustomer } = useCustomerStore();
+  const setSelectedCustomer = useCustomerStore(
+    (state) => state.setSelectedCustomer,
+  );
 
   const columns: Column<Customer>[] = useMemo(
     () => [

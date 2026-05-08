@@ -2,42 +2,46 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  UpdateCustomerDto,
-  updateCustomerSchema,
-} from '@/schemas/update-customer.schema';
+import { CustomerDto, customerSchema } from '@/schemas/customer.schema';
 import { getSchemaFields } from '@/utils/getSchemaFields/getSchemaFields';
-import { useCustomerStore } from '@/store/customers.store';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Error } from '@/components';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FormInputType } from '@/types';
+import { Customer, FormInputType } from '@/types';
 
-const fields = getSchemaFields(updateCustomerSchema);
+interface Props {
+  defaultValues?: Customer | null;
+  submitLabel: string;
+  onHandleSubmit: (data: CustomerDto) => Promise<void>;
+}
+
+const fields = getSchemaFields(customerSchema);
 const fieldMap: Record<(typeof fields)[number], FormInputType> = {
   name: { label: 'nombre' },
   address: { label: 'domicilio', component: Textarea },
-  facebookAlias: { label: 'nombre facebook' },
+  facebookAlias: { label: 'facebook alias' },
   phone1: { label: 'teléfono 1' },
   phone2: { label: 'teléfono 2' },
 };
 
-export function UpdateCustomerForm() {
-  const { selectedCustomer, updateCustomer } = useCustomerStore();
+export function CustomerForm({
+  defaultValues,
+  submitLabel,
+  onHandleSubmit,
+}: Props) {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm<UpdateCustomerDto>({
-    resolver: zodResolver(updateCustomerSchema),
-    defaultValues: selectedCustomer ?? {},
+  } = useForm<CustomerDto>({
+    resolver: zodResolver(customerSchema),
+    defaultValues: defaultValues ?? {},
   });
 
-  const onSubmit: SubmitHandler<UpdateCustomerDto> = (data) =>
-    updateCustomer(selectedCustomer!.id, data);
+  const onSubmit: SubmitHandler<CustomerDto> = onHandleSubmit;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="user-form">
@@ -60,7 +64,7 @@ export function UpdateCustomerForm() {
         form="user-form"
         disabled={isSubmitting}
       >
-        {isSubmitting ? <Spinner /> : 'Guardar cambios'}
+        {isSubmitting ? <Spinner /> : submitLabel}
       </Button>
     </form>
   );

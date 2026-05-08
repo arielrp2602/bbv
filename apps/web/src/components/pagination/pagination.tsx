@@ -11,7 +11,7 @@ interface Props {
 
 export function Pagination({ limit, page, total, setPage }: Props) {
   return (
-    <div className="flex items-center justify-end gap-2 mt-4">
+    <div className="flex items-center justify-center md:justify-end gap-2 mt-4">
       <Button
         variant="outline"
         size="icon"

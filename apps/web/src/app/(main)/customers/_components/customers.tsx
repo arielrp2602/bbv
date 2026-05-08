@@ -5,34 +5,34 @@ import { Customer } from '@/types';
 import { CustomersList } from './customers-list';
 import { CustomersSearch } from './customers-search';
 import { GridSkeleton } from '@/components/grid/grid-skeleton';
-import { Pagination, Sheet, TableSkeleton, ViewToggle } from '@/components';
-import { Plus } from 'lucide-react';
-import { UpdateCustomerForm } from '../update-customer-form';
+import { Pagination, TableSkeleton, ViewToggle } from '@/components';
+import { UserPlus } from 'lucide-react';
 import { useCustomerStore } from '@/store/customers.store';
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { useViewStore } from '@/store/view.store';
-import CustomersGrid from './customers-grid';
-import Link from 'next/link';
+import { CustomersGrid } from './customers-grid';
+import { CustomerSheets } from './customer-sheets';
 
 interface Props {
   initialCustomers: Customer[];
 }
 
-const limit = 25;
+const limit = 100;
 
 export function Customers({ initialCustomers }: Props) {
-  const path = usePathname();
-  const { isLoading, customers, selectedCustomer, setSelectedCustomer } =
-    useCustomerStore();
+  const isLoading = useCustomerStore((state) => state.isLoading);
+  const customers = useCustomerStore((state) => state.customers);
+  const setShowCreateSheet = useCustomerStore(
+    (state) => state.setShowCreateSheet,
+  );
   const { view } = useViewStore();
 
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     useCustomerStore.setState({ customers: initialCustomers });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <div className="flex flex-col gap-3 md:gap-4">
       <div className="flex flex-row-reverse">
@@ -40,23 +40,14 @@ export function Customers({ initialCustomers }: Props) {
       </div>
       <div className="flex gap-2.5 items-center">
         <CustomersSearch />
-        <Link
-          className="bg-transparent border-4 border-[#008000] rounded-4xl"
-          href={`${path}/create`}
+        <button
+          className="bg-transparent p-1 cursor-pointer"
           title="Agregar un nuevo cliente"
+          onClick={() => setShowCreateSheet(true)}
         >
-          <Plus color="#008000" />
-        </Link>
+          <UserPlus color="#008000" />
+        </button>
       </div>
-      <Sheet
-        open={!!selectedCustomer}
-        close="Cerrar"
-        description="Solo el nombre es requerido, el resto son opcionales"
-        title="Actualizar cliente"
-        onOpenChange={(open) => !open && setSelectedCustomer(null)}
-      >
-        <UpdateCustomerForm />
-      </Sheet>
       {view === 'table' ? (
         <ConditionalRender
           flag={isLoading}
@@ -76,6 +67,7 @@ export function Customers({ initialCustomers }: Props) {
         total={customers.length}
         setPage={setPage}
       />
+      <CustomerSheets />
     </div>
   );
 }
