@@ -1,18 +1,19 @@
 'use client';
 
-import { useCustomerStore } from '@/store/customers.store';
+import { ConditionalRender } from '@/components/conditional-render';
 import { Customer } from '@/types';
-import { useEffect, useState } from 'react';
-import { CustomersSearch } from './customers-search';
 import { CustomersList } from './customers-list';
-import { Pagination, ViewToggle } from '@/components';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import { CustomersSearch } from './customers-search';
+import { GridSkeleton } from '@/components/grid/grid-skeleton';
+import { Pagination, Sheet, TableSkeleton, ViewToggle } from '@/components';
 import { Plus } from 'lucide-react';
+import { UpdateCustomerForm } from '../update-customer-form';
+import { useCustomerStore } from '@/store/customers.store';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useViewStore } from '@/store/view.store';
 import CustomersGrid from './customers-grid';
-import { ConditionalRender } from '@/components/conditional-render';
-import { GridSkeleton } from '@/components/grid/grid-skeleton';
+import Link from 'next/link';
 
 interface Props {
   initialCustomers: Customer[];
@@ -22,7 +23,8 @@ const limit = 25;
 
 export function Customers({ initialCustomers }: Props) {
   const path = usePathname();
-  const { isLoading, customers, error } = useCustomerStore();
+  const { isLoading, customers, selectedCustomer, setSelectedCustomer } =
+    useCustomerStore();
   const { view } = useViewStore();
 
   const [page, setPage] = useState(1);
@@ -46,10 +48,19 @@ export function Customers({ initialCustomers }: Props) {
           <Plus color="#008000" />
         </Link>
       </div>
+      <Sheet
+        open={!!selectedCustomer}
+        close="Cerrar"
+        description="Solo el nombre es requerido, el resto son opcionales"
+        title="Actualizar cliente"
+        onOpenChange={(open) => !open && setSelectedCustomer(null)}
+      >
+        <UpdateCustomerForm />
+      </Sheet>
       {view === 'table' ? (
         <ConditionalRender
           flag={isLoading}
-          whenTrue={<GridSkeleton />}
+          whenTrue={<TableSkeleton />}
           whenFalse={<CustomersList customers={customers} />}
         />
       ) : (

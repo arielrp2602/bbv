@@ -1,5 +1,5 @@
 import { Customer } from '@/types';
-import { Customers } from './customers';
+import { Customers } from './_components/customers';
 import { serverFetch } from '@/lib/serverApi';
 
 export default async function CustomersPage() {

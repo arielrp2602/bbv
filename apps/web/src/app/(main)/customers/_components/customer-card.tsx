@@ -9,7 +9,6 @@ interface Props {
 }
 
 function Avatar({ initials }: { initials: string }) {
-  console.log({ initials });
   return (
     <div className="py-1.5 px-2 rounded-4xl bg-primary text-primary-foreground uppercase">
       {initials}
@@ -18,7 +17,6 @@ function Avatar({ initials }: { initials: string }) {
 }
 
 export function CustomerCard({ customer }: Props) {
-  console.log({ customer });
   const initials = useMemo(
     () =>
       customer.name

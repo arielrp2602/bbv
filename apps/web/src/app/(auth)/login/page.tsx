@@ -1,15 +1,15 @@
 'use client';
 
-import { useAuth } from '@/hooks/useAuth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginDto, loginSchema } from '@/schemas/login.schema';
-import { getSchemaFields } from '@/utils/getSchemaFields/getSchemaFields';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Error } from '../../../components';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Spinner } from '@/components/ui/spinner';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Error } from '@/components';
+import { getSchemaFields } from '@/utils/getSchemaFields/getSchemaFields';
+import { Input } from '@/components/ui/input';
+import { LoginDto, loginSchema } from '@/schemas/login.schema';
+import { Spinner } from '@/components/ui/spinner';
+import { useAuth } from '@/hooks/useAuth';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const fields = getSchemaFields(loginSchema);
 

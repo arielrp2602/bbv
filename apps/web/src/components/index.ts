@@ -4,6 +4,9 @@ export { IconButton } from './buttons/icon-button';
 export { DetailsButton } from './buttons/details-button';
 export { RemoveButton } from './buttons/remove-button';
 
+// Sheet
+export { Sheet } from './sheet/sheet';
+
 // Pagination
 export { Pagination } from './pagination/pagination';
 

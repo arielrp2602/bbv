@@ -3,12 +3,15 @@
 import { useMemo } from 'react';
 import { Table } from '@/components/';
 import { Column, Customer } from '@/types';
+import { useCustomerStore } from '@/store/customers.store';
 
 interface Props {
   customers: Customer[];
 }
 
 export function CustomersList({ customers }: Props) {
+  const { setSelectedCustomer } = useCustomerStore();
+
   const columns: Column<Customer>[] = useMemo(
     () => [
       { header: 'Nombre', key: 'name' },
@@ -23,7 +26,7 @@ export function CustomersList({ customers }: Props) {
     <Table
       columns={columns}
       data={customers}
-      getRowHref={(c) => `/customers/${c.id}`}
+      onRowClick={setSelectedCustomer}
     />
   );
 }

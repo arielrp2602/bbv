@@ -8,11 +8,10 @@ interface Props {
 }
 
 export default function CustomersGrid({ customers }: Props) {
-  console.log({ customers });
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
       {customers.map((customer) => (
-        <Link href={`/customers/${customer.id}`}>
+        <Link key={customer.id} href={`/customers/${customer.id}`}>
           <CustomerCard key={customer.id} customer={customer} />
         </Link>
       ))}

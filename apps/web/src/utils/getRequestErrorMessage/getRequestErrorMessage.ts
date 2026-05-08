@@ -6,9 +6,11 @@ export function getRequestErrorMessage(
   err: AxiosError | any,
   customMessage?: string,
 ) {
+  let msg: string | null = null;
+
   if (axios.isAxiosError(err)) {
-    return err.response?.data?.message ?? customMessage ?? defaultMsg;
+    msg = err.response?.data?.message;
   }
 
-  return customMessage ?? defaultMsg;
+  return msg ?? customMessage ?? defaultMsg;
 }

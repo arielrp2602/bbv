@@ -77,3 +77,9 @@ export interface SharedButtonProps {
 }
 
 export type View = 'table' | 'grid';
+
+export interface FormInputType {
+  label: string;
+  component?: React.ElementType;
+  props?: Record<string, string>;
+}
